@@ -2,9 +2,9 @@ import React from "react";
 import Head from "next/head";
 import { useMutation } from "react-query";
 import axios from "axios";
-import SecretSantaWizard, {
-  SecretSanta,
-} from "../components/SecretSantaWizard";
+import { SecretSanta } from "types";
+import SecretSantaWizard from "components/SecretSantaWizard";
+import { validateEmail } from "utils";
 
 export default function Home() {
   const mutation = useMutation((secretSanta: SecretSanta) => {

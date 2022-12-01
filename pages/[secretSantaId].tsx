@@ -1,11 +1,11 @@
 import React from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { ReCAPTCHA } from "react-google-recaptcha";
 import { motion, AnimatePresence } from "framer-motion";
 import styles from "../styles/Home.module.css";
 import { useQuery, useMutation } from "react-query";
 import axios from "axios";
+import Button from "components/Button";
 import {
   Organizer,
   Participant,
@@ -20,7 +20,7 @@ const defaultParticipant = {
   index: 0,
 };
 
-export default function SecretSanta() {
+export default function HomePage() {
   const router = useRouter();
   const { secretSantaId } = router.query;
 
@@ -45,7 +45,8 @@ export default function SecretSanta() {
             throw error;
           }
         });
-    }
+    },
+    {}
   );
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
@@ -67,13 +68,13 @@ export default function SecretSanta() {
               {mutation.error.message}
             </h3>
           </div>
-          <button
+          <Button
             className={styles.TryAgainButton}
             type="button"
             onClick={() => mutation.reset()}
           >
             <span>Try again</span>
-          </button>
+          </Button>
         </div>
       )}
       {mutation.isSuccess && (
@@ -83,8 +84,7 @@ export default function SecretSanta() {
               You have successfully participated in the Secret Santa!
             </h3>
           </div>
-          <button
-            className={styles.TryAgainButton}
+          <Button
             type="button"
             onClick={() => {
               mutation.reset();
@@ -92,7 +92,7 @@ export default function SecretSanta() {
             }}
           >
             <span>Add more participants</span>
-          </button>
+          </Button>
         </div>
       )}
       {!mutation.isError && !mutation.isSuccess && (
@@ -158,9 +158,9 @@ export default function SecretSanta() {
                 exit={{ scale: 0.8, opacity: 0 }}
                 transition={{ type: "spring" }}
               >
-                <button className={styles.AddParticipantButton} type="submit">
+                <Button type="submit">
                   <span>Participate</span>
-                </button>
+                </Button>
               </motion.footer>
             )}
           </AnimatePresence>

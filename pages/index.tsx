@@ -2,7 +2,9 @@ import React from "react";
 import Head from "next/head";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import styles from "../styles/Home.module.css";
+import Santa from "components/Santa";
+import Button from "components/Button";
+import cn from "classnames";
 
 interface Participant {
   index: number;
@@ -21,19 +23,35 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className={styles.container}>
-        <header className={styles.Header}>
-          <h1 className={styles.title}>Secret Santa</h1>
+      <div className={cn(["h-screen flex flex-col justify-evenly"])}>
+        <header className={cn(["flex flex-col gap-4 p-4"])}>
+          <h1 className={cn(["text-center p-0 m-0 text-5xl p-8"])}>
+            Secret Santa
+          </h1>
 
-          <p className={styles.description}>
-            Add participants and generate a secret santa list
+          <p className={cn(["text-center p-0 m-0 text-xl"])}>
+            Invite your friends and family to join in the fun and exchange
+            gifts.
           </p>
         </header>
-        <footer className={styles.Footer}>
+        <AnimatePresence>
+          <motion.div
+            className="flex-1 items-center justify-center flex flex-col gap-4"
+            initial={{
+              opacity: 0,
+            }}
+            animate={{
+              opacity: 1,
+            }}
+          >
+            <Santa />
+          </motion.div>
+        </AnimatePresence>
+        <footer className={cn(["p-4 bg-black w-full sticky bottom-0"])}>
           <Link href="/start">
-            <button className={styles.AddParticipantButton}>
-              <span>Start Secret Santa</span>
-            </button>
+            <Button kind="primary" className="w-full">
+              <span>Start now!</span>
+            </Button>
           </Link>
         </footer>
       </div>

@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 html,
 body {
   padding: 0;
@@ -15,6 +19,14 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+input,
+textarea,
+button,
+select,
+a {
+  -webkit-tap-highlight-color: transparent;
 }
 
 * {
@@ -47,9 +59,7 @@ button {
   letter-spacing: 0.05rem;
   font-weight: 500;
   border-radius: 4px;
-  color: white;
   transition: all 0.2s ease;
-  background-color: var(--color-primary);
   border: none;
   cursor: pointer;
   text-transform: uppercase;
@@ -57,7 +67,6 @@ button {
 }
 
 button:focus {
-  background-color: var(--color-primary);
   outline: none;
   box-shadow: 0 0 0 4px var(--color-bg), 0 0 0 8px var(--color-primary);
 }

@@ -36,6 +36,7 @@ export default async function handler(
           name: req.body.organizer.name,
           email: req.body.organizer.email,
         },
+        drawDate: req.body.drawDate,
         participants: req.body.participants,
         password,
       })

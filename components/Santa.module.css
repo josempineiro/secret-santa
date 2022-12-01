@@ -1,0 +1,235 @@
+.Santa {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.Head {
+  transform: translateY(20px);
+  width: 80px;
+  height: 80px;
+  border-radius: 100%;
+  z-index: 1;
+}
+
+.Hat {
+  width: 70%;
+  height: 70%;
+  background-color: var(--color-primary);
+  border-color: #b73f43;
+  position: absolute;
+  border-radius: 100% 0 0 0;
+  z-index: 1;
+  left: 50%;
+  transform: translate3d(-50%, -80%, 0);
+}
+
+.Hat::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  background-color: white;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+}
+
+.Hat::before {
+  content: "";
+  position: absolute;
+  width: calc(100% + 10px);
+  height: 10px;
+  border-radius: 5px;
+  background-color: white;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 50%);
+}
+
+.Face {
+  background-color: #fad2af;
+  width: 60px;
+  height: 20px;
+  border-radius: 10px;
+  border-top-color: rgb(208, 208, 208);
+  border-left-color: rgb(208, 208, 208);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -100%);
+}
+
+.Hair {
+  position: absolute;
+  background-color: transparent;
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 100%;
+  border: 8px solid rgb(208, 208, 208);
+}
+
+.Eye {
+  background-color: #000;
+  width: 10%;
+  height: 10%;
+  border-radius: 100%;
+  position: absolute;
+  top: 30%;
+  left: 40%;
+  transform: translateX(-100%);
+}
+
+.Eye::after {
+  content: "";
+  background-color: #fff;
+  width: 50%;
+  height: 50%;
+  border-radius: 100%;
+  position: absolute;
+  top: 40%;
+  left: 60%;
+  transform: translate(-50%, -50%);
+}
+
+.Eye::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  width: 150%;
+  height: 50%;
+  background-color: white;
+  transform: translate3d(0, -50%, 0);
+  border-radius: 5px 0 5px 0;
+}
+
+.Eye ~ .Eye::before {
+  border-radius: 0 5px 0 5px;
+  right: 0;
+}
+
+.Eye + .Eye {
+  background-color: #000;
+  width: 10%;
+  height: 10%;
+  border-radius: 100%;
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translateX(100%);
+}
+.Nose {
+  background-color: #f9c89d;
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.Beard {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  border-radius: 100% 100% 100% 0;
+  transform: rotate(-45deg);
+}
+
+.Body {
+  background-color: var(--color-primary);
+  width: 80px;
+  height: 80px;
+  border-radius: 30px;
+  position: relative;
+}
+
+@keyframes wave {
+  50% {
+    -webkit-transform: rotate(15deg) translateY(10px);
+    transform: rotate(15deg) translateY(10px);
+  }
+}
+
+.ArmLeft {
+  position: absolute;
+  top: 18%;
+  right: -19%;
+  width: 60px;
+  height: 56px;
+  border-radius: 40px;
+  padding: 0 10px;
+  border: 26px var(--color-primary) solid;
+  border: 9px transparent solid;
+  border-left: 17px var(--color-primary) solid;
+  border-bottom: 17px var(--color-primary) solid;
+  transform: rotate(-191deg);
+}
+
+.ArmRight {
+  position: absolute;
+  top: -37%;
+  left: -38%;
+  width: 60px;
+  height: 56px;
+  border-radius: 40px;
+  padding: 0 10px;
+  border: 26px var(--color-primary) solid;
+  border: 8px transparent solid;
+  border-right: 17px var(--color-primary) solid;
+  border-bottom: 17px var(--color-primary) solid;
+  transform: rotate(29deg);
+  animation: wave 2s infinite;
+}
+.ArmLeft::before,
+.ArmRight::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 15px;
+  height: 15px;
+  background: #fad2af;
+  border-radius: 100%;
+}
+.ArmLeft::before {
+  transform: translate(-6px, -9px);
+}
+
+.ArmRight::before {
+  transform: translate(-9px, 25px);
+}
+
+.ArmLeft::after,
+.ArmRight::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 15px;
+  height: 10px;
+  background: white;
+  border-radius: 2px;
+}
+
+.ArmLeft::after {
+  transform: translate(-10px, -1px) rotate(42deg);
+}
+
+.ArmRight::after {
+  transform: translate(-3px, 31px) rotate(-63deg);
+}
+
+.Legs {
+  background-color: var(--color-primary);
+}

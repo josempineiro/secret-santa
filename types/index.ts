@@ -21,7 +21,7 @@ export interface Participation {
 export interface SecretSanta {
   id?: string;
   name: string;
-  drawDate: Date;
+  drawDate: string;
   organizer: Organizer;
   password: string;
   participants: Participant[];

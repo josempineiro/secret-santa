@@ -142,23 +142,26 @@ const steps = [
     description:
       "Add some participants in the secret santa.\nOr share the link with your friends and let them add themselves.",
     validate: (secretSanta: SecretSanta) => {
-      return (
-        secretSanta.participants.length > 0 &&
-        secretSanta.participants.every(
-          (participant, index, allParticipants) => {
-            return (
-              Boolean(participant.name && validateEmail(participant.email)) &&
-              allParticipants.findIndex(
-                ({ email }) => email === participant.email
-              ) === index
-            );
-          }
-        )
+      return secretSanta.participants.every(
+        (participant, index, allParticipants) => {
+          return (
+            Boolean(participant.name && validateEmail(participant.email)) &&
+            allParticipants.findIndex(
+              ({ email }) => email === participant.email
+            ) === index
+          );
+        }
       );
     },
     content: ({ secretSanta, setSecretSanta }: SecretSantaStep) => {
       return (
         <>
+          {secretSanta.participants.length === 0 && (
+            <p className="py-8">
+              You can share with your friends so they can add themselves to the
+              Secret Santa.
+            </p>
+          )}
           <ParticipantsList
             value={secretSanta.participants}
             onChange={(participants: Participant[]) => {

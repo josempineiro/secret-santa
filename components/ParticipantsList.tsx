@@ -170,9 +170,6 @@ export default function ParticipantsList({
         </div>
       </Modal>
       <ul
-        style={{
-          maxHeight: "300px",
-        }}
         className={cn([
           "flex flex-1 w-full h-full gap-5 m-0 p-0 flex-col overflow-scroll",
         ])}

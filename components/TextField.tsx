@@ -17,6 +17,7 @@ const TextField = ({
   const [focused, setFocused] = React.useState<boolean>(false);
   const hasValue =
     typeof value === "string" ? value.length > 0 : value !== undefined;
+
   return (
     <div className={cn([className, "rounded  w-full relative my-2"])}>
       <input
@@ -38,7 +39,7 @@ const TextField = ({
       <label
         htmlFor={label}
         className={cn(
-          "text-md ml-4 absolute font-medium uppercase top-1/2 left-0 transition-all duration-200 transform -translate-y-1/2 ",
+          "text-md ml-4 absolute font-medium top-1/2 left-0 transition-all duration-200 transform -translate-y-1/2 ",
           {
             ["top-1 translate-y-0 font-light text-xs opacity-60"]:
               hasValue || focused,

@@ -1,17 +1,24 @@
 import React from "react";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { useMutation } from "react-query";
 import axios from "axios";
 import { SecretSanta } from "types";
 import SecretSantaWizard from "components/SecretSantaWizard";
-import { validateEmail } from "utils";
+import LoaderBoundary from "components/LoaderBoundary";
+
+const createSecretSanta = async (secretSanta: SecretSanta) =>
+  axios.post("/api/start", secretSanta);
 
 export default function Home() {
-  const mutation = useMutation((secretSanta: SecretSanta) => {
-    return axios.post("/api/start", secretSanta);
+  const router = useRouter();
+  const createSecretSantaMutation = useMutation(createSecretSanta, {
+    onSuccess: (data) => {
+      router.push(`/${data.data.id}`);
+    },
   });
   const handleSubmit = (secretSanta: SecretSanta) => {
-    mutation.mutate(secretSanta);
+    createSecretSantaMutation.mutate(secretSanta);
   };
   return (
     <>

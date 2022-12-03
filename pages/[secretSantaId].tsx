@@ -1,23 +1,25 @@
 import React from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import Santa from "components/Santa";
+import cn from "classnames";
 import { motion, AnimatePresence } from "framer-motion";
 import styles from "../styles/Home.module.css";
 import { useQuery, useMutation } from "react-query";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import Button from "components/Button";
-import {
-  Organizer,
-  Participant,
-  ApiError,
-  SecretSanta,
-  Participation,
-} from "../types";
+import { Participant, ApiError, SecretSanta, Participation } from "../types";
+import TextField from "components/TextField";
+import { validateEmail } from "utils";
 
 const defaultParticipant = {
   name: "",
   email: "",
   index: 0,
+};
+
+type GetSecretSantaResponse = {
+  data: SecretSanta;
 };
 
 export default function HomePage() {
@@ -26,34 +28,33 @@ export default function HomePage() {
 
   const [participant, setParticipant] =
     React.useState<Participant>(defaultParticipant);
+  const [password, setPassword] = React.useState<string>("");
 
-  const { data, isError, error } = useQuery<SecretSanta>(
+  const secretSantaQuery = useQuery<
+    GetSecretSantaResponse,
+    AxiosError<ApiError>
+  >(
     [secretSantaId],
-    () => {
-      return axios.get(`/api/${secretSantaId}`).then((res) => res.data);
+    () => axios.get(`/api/${secretSantaId}?password=${password}`),
+    {
+      enabled: false,
+      retry: false,
     }
   );
 
-  const mutation = useMutation<SecretSanta, ApiError, Participation>(
-    (participation: Participation) => {
-      return axios
-        .post<Participation>(`/api/participate`, participation)
-        .catch(function (error) {
-          if (error.response) {
-            throw error.response.data;
-          } else {
-            throw error;
-          }
-        });
-    },
-    {}
-  );
+  const mutation = useMutation<
+    SecretSanta,
+    AxiosError<ApiError, ApiError>,
+    Participation
+  >((participation: Participation) => {
+    return axios.post(`/api/participate`, participation);
+  }, {});
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
     mutation.mutate({ secretSantaId: secretSantaId as string, participant });
   };
-
+  console.log(secretSantaQuery.data?.data.organizer.name);
   return (
     <>
       <Head>
@@ -61,31 +62,95 @@ export default function HomePage() {
         <meta name="description" content="Start a secret santa" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {mutation.isError && mutation.error && (
-        <div className={styles.AlreadyParticipating}>
-          <div className={styles.AlreadyParticipatingContent}>
-            <h3 className={styles.AlreadyParticipatingMessage}>
-              {mutation.error.message}
-            </h3>
-          </div>
-          <Button
-            className={styles.TryAgainButton}
-            type="button"
-            onClick={() => mutation.reset()}
+      <div
+        className={cn([
+          "flex h-full flex-col items-center w-full gap-20 justify-center p-4",
+        ])}
+      >
+        <Santa
+          messagePosition="top"
+          message={
+            (!secretSantaQuery.isFetched &&
+              "Enter the password to join the Secret Santa") ||
+            (secretSantaQuery.isFetching &&
+              "Let me check if you're on the list...") ||
+            (secretSantaQuery.isError &&
+              secretSantaQuery.error?.response?.data.message) ||
+            (secretSantaQuery.isSuccess &&
+              `${secretSantaQuery.data.data.organizer.name} is organizing a Secret Santa!\nSend your participation!`) ||
+            (mutation.isSuccess &&
+              secretSantaQuery.data &&
+              `You have successfully participated in the Secret Santa!\nYou will receive an email on ${new Date(
+                secretSantaQuery.data.data.drawDate
+              ).toLocaleString()}\nGood luck!`) ||
+            (mutation.isError &&
+              mutation.error &&
+              mutation.error.response?.data.message) ||
+            ""
+          }
+        />
+        {(!password || !secretSantaQuery.isFetched) && (
+          <form
+            className="w-full"
+            onSubmit={(event) => {
+              event.preventDefault();
+              secretSantaQuery.refetch();
+            }}
           >
-            <span>Try again</span>
-          </Button>
-        </div>
-      )}
-      {mutation.isSuccess && (
-        <div className={styles.AlreadyParticipating}>
-          <div className={styles.AlreadyParticipatingContent}>
-            <h3 className={styles.AlreadyParticipatingMessage}>
-              You have successfully participated in the Secret Santa!
-            </h3>
-          </div>
+            <TextField
+              autoFocus
+              label="Password"
+              type="password"
+              value={password}
+              className="w-full mb-6"
+              onChange={(password) => setPassword(password)}
+            />
+            <Button
+              type="submit"
+              className="w-full"
+              kind="primary"
+              disabled={!password}
+            >
+              Join
+            </Button>
+          </form>
+        )}
+        {password &&
+          secretSantaQuery.isError &&
+          secretSantaQuery.error &&
+          secretSantaQuery.error.response?.status === 401 && (
+            <Button
+              className={styles.TryAgainButton}
+              type="button"
+              kind="primary"
+              onClick={() => {
+                secretSantaQuery.remove();
+                setPassword("");
+              }}
+            >
+              <span>Try again</span>
+            </Button>
+          )}
+        {mutation.isError &&
+          mutation.error &&
+          mutation.error.response?.status === 400 && (
+            <Button
+              className={styles.TryAgainButton}
+              type="button"
+              kind="primary"
+              onClick={() => mutation.reset()}
+            >
+              <span>Try again</span>
+            </Button>
+          )}
+        {(mutation.isSuccess ||
+          (mutation.isError &&
+            mutation.error &&
+            mutation.error.response?.status === 409)) && (
           <Button
             type="button"
+            kind="primary"
+            className="w-full"
             onClick={() => {
               mutation.reset();
               setParticipant(defaultParticipant);
@@ -93,79 +158,54 @@ export default function HomePage() {
           >
             <span>Add more participants</span>
           </Button>
-        </div>
-      )}
-      {!mutation.isError && !mutation.isSuccess && (
-        <form className={styles.container} onSubmit={handleSubmit}>
-          <header className={styles.Header}>
-            <h2 className={styles.title}>Hoo Hoo Hoo!</h2>
-            <h1 className={styles.title}>Start Secret Santa</h1>
-
-            <p className={styles.description}>
-              {data?.organizer.name} is organizing a secret santa!
-            </p>
-            <h4 className={styles.description}>Participate:</h4>
-          </header>
-          <main className={styles.main}>
-            <ul className={styles.ParticipantList}>
-              <AnimatePresence mode={"popLayout" || "sync"}>
-                {data && (
-                  <motion.div
-                    layout
-                    animate={{ scale: 1, opacity: 1 }}
-                    exit={{ scale: 0.8, opacity: 0 }}
-                    transition={{ type: "spring" }}
-                    className={styles.ParticipantItem}
+        )}
+        {!mutation.isError && !mutation.isSuccess && (
+          <form className="w-full" onSubmit={handleSubmit}>
+            <AnimatePresence mode={"popLayout" || "sync"}>
+              {secretSantaQuery.data && (
+                <motion.div
+                  layout
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.8, opacity: 0 }}
+                  transition={{ type: "spring" }}
+                  className={"w-full"}
+                >
+                  <TextField
+                    label="Name"
+                    type="text"
+                    autoFocus
+                    className="mb-4"
+                    value={participant.name}
+                    onChange={(name) =>
+                      setParticipant({ ...participant, name })
+                    }
+                  />
+                  <TextField
+                    label="Email"
+                    type="email"
+                    autoFocus
+                    className="mb-4"
+                    value={participant.email}
+                    onChange={(email) =>
+                      setParticipant({ ...participant, email })
+                    }
+                  />
+                  <Button
+                    type="submit"
+                    className="w-full"
+                    kind="primary"
+                    disabled={
+                      !(participant.name && validateEmail(participant.email))
+                    }
                   >
-                    <div className={styles.ParticipantDetails}>
-                      <input
-                        type="text"
-                        placeholder="Name"
-                        autoFocus
-                        value={participant.name}
-                        className={styles.ParticipantNameInput}
-                        onChange={(event) => {
-                          setParticipant((participant) => ({
-                            ...participant,
-                            name: event.target.value,
-                          }));
-                        }}
-                      />
-
-                      <input
-                        placeholder="Email"
-                        type="email"
-                        value={participant.email}
-                        className={styles.ParticipantNameEmail}
-                        onChange={(event) => {
-                          setParticipant((participant) => ({
-                            ...participant,
-                            email: event.target.value,
-                          }));
-                        }}
-                      />
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </ul>
-          </main>
-          <AnimatePresence>
-            {participant.name && participant.email && (
-              <motion.footer
-                className={styles.Footer}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.8, opacity: 0 }}
-                transition={{ type: "spring" }}
-              >
-                <Button type="submit">
-                  <span>Participate</span>
-                </Button>
-              </motion.footer>
-            )}
-          </AnimatePresence>
-        </form>
-      )}
+                    <span>Participate</span>
+                  </Button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </form>
+        )}
+      </div>
     </>
   );
 }

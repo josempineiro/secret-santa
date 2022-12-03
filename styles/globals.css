@@ -1,3 +1,5 @@
+@import url("https://fonts.cdnfonts.com/css/mountains-of-christmas");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -92,4 +94,8 @@ button[disabled] {
 
 #modal-root > * {
   pointer-events: auto;
+}
+
+.font-christmas {
+  font-family: "Mountains of Christmas", sans-serif;
 }

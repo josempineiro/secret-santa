@@ -6,6 +6,7 @@ import { SecretSanta, Participant } from "types";
 import ParticipantsList from "components/ParticipantsList";
 import Button from "components/Button";
 import TextField from "components/TextField";
+import Santa from "components/Santa";
 
 const passwordLength = process.env.SECRET_SANTA_PASSWORD_LENGTH
   ? Number(process.env.SECRET_SANTA_PASSWORD_LENGTH)
@@ -15,9 +16,16 @@ interface SecretSantaWizardProps {
   onSubmit: (secretSanta: SecretSanta) => void;
 }
 
-interface SecretSantaStep {
+interface SecretSantaStepContentProps {
   secretSanta: SecretSanta;
   setSecretSanta: React.Dispatch<React.SetStateAction<SecretSanta>>;
+}
+interface SecretSantaStep {
+  id: string;
+  title: string;
+  description: string;
+  validate: (secretSanta: SecretSanta) => boolean | string;
+  content: (props: SecretSantaStepContentProps) => React.ReactNode;
 }
 
 const steps = [
@@ -28,9 +36,10 @@ const steps = [
     validate: (secretSanta: SecretSanta) => {
       return secretSanta.name.length > 0;
     },
-    content: ({ secretSanta, setSecretSanta }: SecretSantaStep) => {
+    content: ({ secretSanta, setSecretSanta }: SecretSantaStepContentProps) => {
       return (
         <TextField
+          autoFocus
           label="Group name"
           value={secretSanta.name}
           onChange={(value: string) => {
@@ -52,20 +61,21 @@ const steps = [
         secretSanta.organizer.name && validateEmail(secretSanta.organizer.email)
       );
     },
-    content: ({ secretSanta, setSecretSanta }: SecretSantaStep) => {
+    content: ({ secretSanta, setSecretSanta }: SecretSantaStepContentProps) => {
       return (
         <>
           <TextField
             label="Your name"
             type="text"
+            autoFocus
             value={secretSanta.organizer.name}
             className="mb-4"
-            onChange={(value: string) => {
+            onChange={(name: string) => {
               setSecretSanta({
                 ...secretSanta,
                 organizer: {
                   ...secretSanta.organizer,
-                  name: value,
+                  name,
                 },
               });
             }}
@@ -74,12 +84,12 @@ const steps = [
             label="Your email"
             value={secretSanta.organizer.email}
             type="email"
-            onChange={(value: string) => {
+            onChange={(email: string) => {
               setSecretSanta({
                 ...secretSanta,
                 organizer: {
                   ...secretSanta.organizer,
-                  email: value,
+                  email,
                 },
               });
             }}
@@ -93,14 +103,20 @@ const steps = [
     title: "Draw date and time",
     description: "When should the draw take place?",
     validate: (secretSanta: SecretSanta) => {
-      return secretSanta.drawDate;
+      if (
+        !(secretSanta.drawDate && new Date(secretSanta.drawDate) > new Date())
+      ) {
+        return "Please select a date in the future";
+      }
+      return true;
     },
-    content: ({ secretSanta, setSecretSanta }: SecretSantaStep) => {
+    content: ({ secretSanta, setSecretSanta }: SecretSantaStepContentProps) => {
       return (
         <>
           <TextField
             label="Draw date"
             type="datetime-local"
+            autoFocus
             value={secretSanta.drawDate}
             onChange={(drawDate: string) => {
               setSecretSanta({
@@ -120,7 +136,7 @@ const steps = [
     validate: (secretSanta: SecretSanta) => {
       return secretSanta.password.length >= passwordLength;
     },
-    content: ({ secretSanta, setSecretSanta }: SecretSantaStep) => {
+    content: ({ secretSanta, setSecretSanta }: SecretSantaStepContentProps) => {
       return (
         <TextField
           label="Group password"
@@ -139,6 +155,7 @@ const steps = [
   {
     id: "participants",
     title: "Participants",
+    hidden: true,
     description:
       "Add some participants in the secret santa.\nOr share the link with your friends and let them add themselves.",
     validate: (secretSanta: SecretSanta) => {
@@ -153,11 +170,11 @@ const steps = [
         }
       );
     },
-    content: ({ secretSanta, setSecretSanta }: SecretSantaStep) => {
+    content: ({ secretSanta, setSecretSanta }: SecretSantaStepContentProps) => {
       return (
         <>
           {secretSanta.participants.length === 0 && (
-            <p className="py-8">
+            <p className="py-2">
               You can share with your friends so they can add themselves to the
               Secret Santa.
             </p>
@@ -175,7 +192,7 @@ const steps = [
       );
     },
   },
-];
+].filter(({ hidden }) => !hidden);
 
 export default function SecretSantaWizard({
   onSubmit,
@@ -189,17 +206,11 @@ export default function SecretSantaWizard({
       new Date(new Date().setDate(new Date().getDate() + 1))
         .toISOString()
         .split(/:\d\d:\d\d\./)[0] + ":00",
-    participants: [
-      ...Array.from(new Array(20)).map((_, index) => ({
-        name: `John Doe ${index}`,
-        email: `johndoe${index}@gmail.com`,
-        index,
-      })),
-    ],
+    participants: [],
     password: "",
     name: "",
   });
-  const [activeStep, setActiveStep] = React.useState(3);
+  const [activeStep, setActiveStep] = React.useState(0);
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
     onSubmit(secretSanta);
@@ -222,16 +233,22 @@ export default function SecretSantaWizard({
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2 }}
               >
-                <div className={cn(["py-8 p-4"])}>
-                  <h2 className={cn(["text-4xl mb-4"])}>{step.title}</h2>
-                  <p className={cn(["text-xl"])}>{step.description}</p>
-                </div>
                 <div
                   className={cn([
-                    "flex-1 flex flex-col justify-start items-center overflow-hidden px-4 ",
+                    "flex-1 flex flex-col justify-center items-center overflow-hidden px-4 ",
                   ])}
                 >
+                  <Santa
+                    message={step.description}
+                    messagePosition="right"
+                    className={"self-start py-16"}
+                  />
                   {step.content({ secretSanta, setSecretSanta })}
+                  {step.validate(secretSanta) !== true && (
+                    <p className={cn(["text-red-500 text-sm"])}>
+                      {step.validate(secretSanta)}
+                    </p>
+                  )}
                 </div>
                 <div
                   className={cn([

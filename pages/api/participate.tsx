@@ -1,6 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { firestore } from "config/firebase";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { SecretSanta } from "types";
 
 type Organizer = {
   name: string;
@@ -13,30 +14,41 @@ type Error = {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Organizer | Error>
+  res: NextApiResponse<SecretSanta | Error>
 ) {
+  const message =
+    "There is an participant with the same name\nPlease, choose another name!";
   if (req.method === "POST") {
     const documentRef = await firestore
       .collection("secretsanta")
       .doc(req.body.secretSantaId);
     const snapshot = await documentRef.get();
+    const secretSanta = snapshot.data() as SecretSanta;
     if (snapshot.exists) {
       if (
-        snapshot
-          .data()
-          .participants.find(
-            (participant: any) =>
-              participant.email === req.body.participant.email
-          )
+        secretSanta.participants.find(
+          (participant: any) =>
+            participant.name === req.body.participant.name &&
+            participant.email !== req.body.participant.email
+        )
       ) {
-        res.status(400).json({ message: "Participant already exists" });
+        res.status(400).json({
+          message:
+            "There is an participant with the same name\nPlease, choose another name!",
+        });
+      } else if (
+        secretSanta.participants.find(
+          (participant: any) => participant.email === req.body.participant.email
+        )
+      ) {
+        res.status(409).json({ message: "You are already participating!" });
       } else {
         documentRef.update({
-          participants: [...snapshot.data().participants, req.body.participant],
+          participants: [...secretSanta.participants, req.body.participant],
         });
         res.status(200).json({
           id: snapshot.id,
-          ...snapshot.data(),
+          ...secretSanta,
         });
       }
     } else {

@@ -16,8 +16,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<SecretSanta | Error>
 ) {
-  const message =
-    "There is an participant with the same name\nPlease, choose another name!";
   if (req.method === "POST") {
     const documentRef = await firestore
       .collection("secretsanta")
@@ -33,8 +31,7 @@ export default async function handler(
         )
       ) {
         res.status(400).json({
-          message:
-            "There is an participant with the same name\nPlease, choose another name!",
+          message: `Oops! There is an participant with the same name, <b class="text-primary">${req.body.participant.name}</b>!\nPlease, choose another name!`,
         });
       } else if (
         secretSanta.participants.find(

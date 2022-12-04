@@ -5,18 +5,14 @@ import { useMutation } from "react-query";
 import axios from "axios";
 import { SecretSanta } from "types";
 import SecretSantaWizard from "components/SecretSantaWizard";
-import LoaderBoundary from "components/LoaderBoundary";
+import SecretSantaShare from "components/SecretSantaShare";
 
 const createSecretSanta = async (secretSanta: SecretSanta) =>
   axios.post("/api/start", secretSanta);
 
 export default function Home() {
   const router = useRouter();
-  const createSecretSantaMutation = useMutation(createSecretSanta, {
-    onSuccess: (data) => {
-      router.push(`/${data.data.id}`);
-    },
-  });
+  const createSecretSantaMutation = useMutation(createSecretSanta);
   const handleSubmit = (secretSanta: SecretSanta) => {
     createSecretSantaMutation.mutate(secretSanta);
   };
@@ -27,7 +23,13 @@ export default function Home() {
         <meta name="description" content="Start a secret santa" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <SecretSantaWizard onSubmit={handleSubmit} />
+      {createSecretSantaMutation.isSuccess ? (
+        <SecretSantaShare
+          secretSanta={createSecretSantaMutation.data.data as SecretSanta}
+        />
+      ) : (
+        <SecretSantaWizard onSubmit={handleSubmit} />
+      )}
     </>
   );
 }

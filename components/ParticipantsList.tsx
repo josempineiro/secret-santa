@@ -113,7 +113,7 @@ export default function ParticipantsList({
                 exit={{ scale: 0.8, opacity: 0 }}
                 transition={{ type: "spring" }}
                 className={cn([
-                  "flex flex-row gap-4 p-4 border border-red-500 text-red-500 rounded",
+                  "flex flex-row gap-4 p-4 border border-primary text-primary rounded",
                 ])}
               >
                 <svg

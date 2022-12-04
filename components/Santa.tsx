@@ -37,7 +37,7 @@ const Santa = ({
             delay: 0.3,
           }}
         >
-          {message}
+          <span dangerouslySetInnerHTML={{ __html: message }}></span>
           <span
             className={cn([
               "absolute rotate-45 bg-white h-4 w-4 transform ",

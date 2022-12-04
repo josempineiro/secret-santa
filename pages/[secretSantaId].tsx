@@ -70,14 +70,6 @@ export default function HomePage() {
         <Santa
           messagePosition="top"
           message={
-            (!secretSantaQuery.isFetched &&
-              "Enter the password to join the Secret Santa") ||
-            (secretSantaQuery.isFetching &&
-              "Let me check if you're on the list...") ||
-            (secretSantaQuery.isError &&
-              secretSantaQuery.error?.response?.data.message) ||
-            (secretSantaQuery.isSuccess &&
-              `${secretSantaQuery.data.data.organizer.name} is organizing a Secret Santa!\nSend your participation!`) ||
             (mutation.isSuccess &&
               secretSantaQuery.data &&
               `You have successfully participated in the Secret Santa!\nYou will receive an email on ${new Date(
@@ -86,6 +78,14 @@ export default function HomePage() {
             (mutation.isError &&
               mutation.error &&
               mutation.error.response?.data.message) ||
+            (!secretSantaQuery.isFetched &&
+              "Enter the password to join the Secret Santa") ||
+            (secretSantaQuery.isFetching &&
+              "Let me check if you're on the list...") ||
+            (secretSantaQuery.isError &&
+              secretSantaQuery.error?.response?.data.message) ||
+            (secretSantaQuery.isSuccess &&
+              `${secretSantaQuery.data.data.organizer.name} is organizing <b class="text-primary">${secretSantaQuery.data.data.name}</b>'s Secret Santa!\nSend your participation!`) ||
             ""
           }
         />

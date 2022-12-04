@@ -32,7 +32,8 @@ const steps = [
   {
     id: "name",
     title: "Name",
-    description: "What is the name of your Secret Santa?",
+    description:
+      'What is the name of your Secret Santa?\n i.e. <b class="text-primary">Smith Family</b>',
     validate: (secretSanta: SecretSanta) => {
       return secretSanta.name.length > 0;
     },
@@ -40,7 +41,7 @@ const steps = [
       return (
         <TextField
           autoFocus
-          label="Group name"
+          label="Secret Santa title"
           value={secretSanta.name}
           onChange={(value: string) => {
             setSecretSanta({
@@ -121,7 +122,7 @@ const steps = [
             onChange={(drawDate: string) => {
               setSecretSanta({
                 ...secretSanta,
-                drawDate: drawDate.split(/:/)[0] + ":00",
+                drawDate: drawDate.split(/T/)[0] + "T20:00",
               });
             }}
           />
@@ -132,7 +133,8 @@ const steps = [
   {
     id: "password",
     title: "Password",
-    description: "Provide a password to protect your Secret Santa",
+    description:
+      'Provide a <b class="text-primary">password</b> to protect your Secret Santa.\n<b class="text-primary">You must share it with your participants<b>',
     validate: (secretSanta: SecretSanta) => {
       return secretSanta.password.length >= passwordLength;
     },
@@ -205,7 +207,7 @@ export default function SecretSantaWizard({
     drawDate:
       new Date(new Date().setDate(new Date().getDate() + 1))
         .toISOString()
-        .split(/:\d\d:\d\d\./)[0] + ":00",
+        .split(/T/)[0] + "T20:00",
     participants: [],
     password: "",
     name: "",
@@ -245,7 +247,7 @@ export default function SecretSantaWizard({
                   />
                   {step.content({ secretSanta, setSecretSanta })}
                   {step.validate(secretSanta) !== true && (
-                    <p className={cn(["text-red-500 text-sm"])}>
+                    <p className={cn(["text-primary text-sm"])}>
                       {step.validate(secretSanta)}
                     </p>
                   )}

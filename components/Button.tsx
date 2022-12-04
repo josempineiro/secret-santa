@@ -24,7 +24,7 @@ const Button = ({
         "rounded-md text-white",
         {
           "opacity-50 cursor-not-allowed": disabled,
-          "bg-red-600": kind === "primary",
+          "bg-primary": kind === "primary",
           "bg-stone-600": kind === "secondary",
           "bg-transparent": kind === "text",
           "p-2": size === "small",

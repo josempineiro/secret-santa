@@ -7,7 +7,9 @@ const queryClient = new QueryClient();
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
-      <Component {...pageProps} />
+      <div className="h-full flex flex-col md:max-w-2xl w-full md:mx-auto">
+        <Component {...pageProps} />
+      </div>
       <div id="modal-root"></div>
     </QueryClientProvider>
   );

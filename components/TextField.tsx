@@ -12,9 +12,10 @@ const TextField = ({
   value,
   onChange,
   className,
+  autoFocus,
   ...rest
 }: TextInputProps) => {
-  const [focused, setFocused] = React.useState<boolean>(false);
+  const [focused, setFocused] = React.useState<boolean | undefined>(autoFocus);
   const hasValue =
     typeof value === "string" ? value.length > 0 : value !== undefined;
 
@@ -24,12 +25,13 @@ const TextField = ({
         {...rest}
         id={label}
         className={cn([
-          "px-4 pt-6 pb-2 text-md font-medium border-none rounded text-white bg-transparent w-full ring-2  ring-white ring-opacity-30 outline-none",
-          "focus:ring-4 focus:ring-primary focus:ring-opacity-100",
+          "appearance-none px-4 pt-6 pb-2 text-md font-medium border-none rounded text-white bg-transparent w-full ring-2 ring-white ring-opacity-30 outline-none transition-shadow",
+          "focus:ring-2 focus:ring-primary focus:ring-opacity-100",
           "transition-all duration-200",
         ])}
         value={value}
         placeholder=" "
+        autoFocus={autoFocus}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
         onChange={(event) => {

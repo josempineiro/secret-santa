@@ -36,15 +36,14 @@ export default function Home() {
               duration: 0.3,
               delay: 0,
             }}
-            className={cn(["flex flex-col gap-4 p-4"])}
+            className={cn(["flex flex-col gap-4 p-12 gap-2"])}
           >
-            <h1
-              className={cn([
-                "text-center p-0 m-0 text-5xl p-8 font-christmas",
-              ])}
-            >
+            <h1 className={cn(["text-center p-0 m-0 text-5xl font-christmas"])}>
               Secret Santa
             </h1>
+            <h2 className={cn(["text-center p-0 m-0 text-2xl font-christmas"])}>
+              Game
+            </h2>
           </motion.header>
         </AnimatePresence>
         <AnimatePresence>

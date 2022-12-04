@@ -41,7 +41,7 @@ const steps = [
     content: ({ secretSanta, setSecretSanta }: SecretSantaStepContentProps) => {
       return (
         <TextField
-          label="Secret Santa title"
+          label="Group name"
           value={secretSanta.name}
           onChange={(value: string) => {
             setSecretSanta({
@@ -101,7 +101,8 @@ const steps = [
   {
     id: "drawDate",
     title: "Draw date and time",
-    description: "When should the draw take place?",
+    description:
+      "When should the draw take place?\nParticipants will receive an email with their Secret Santa results.",
     validate: (secretSanta: SecretSanta) => {
       if (
         !(secretSanta.drawDate && new Date(secretSanta.drawDate) > new Date())

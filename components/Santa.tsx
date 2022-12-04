@@ -7,13 +7,23 @@ const Santa = ({
   className,
   message,
   messagePosition = "top",
+  variant = "default",
 }: {
   className?: string;
   message: string;
   messagePosition?: "top" | "right";
+  variant?: "default" | "eyes-closed";
 }) => {
   return (
-    <div className={cn([styles.Santa, className])}>
+    <div
+      className={cn([
+        className,
+        styles.Santa,
+        {
+          [styles["Santa--eyes-closed"]]: variant === "eyes-closed",
+        },
+      ])}
+    >
       <AnimatePresence>
         <motion.div
           key={message}

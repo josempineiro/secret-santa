@@ -28,7 +28,10 @@ export default function Home() {
           secretSanta={createSecretSantaMutation.data.data as SecretSanta}
         />
       ) : (
-        <SecretSantaWizard onSubmit={handleSubmit} />
+        <SecretSantaWizard
+          onSubmit={handleSubmit}
+          loading={createSecretSantaMutation.isLoading}
+        />
       )}
     </>
   );

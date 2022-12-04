@@ -42,7 +42,7 @@ export default function HomePage() {
     }
   );
 
-  const mutation = useMutation<
+  const participateMutation = useMutation<
     SecretSanta,
     AxiosError<ApiError, ApiError>,
     Participation
@@ -52,7 +52,10 @@ export default function HomePage() {
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    mutation.mutate({ secretSantaId: secretSantaId as string, participant });
+    participateMutation.mutate({
+      secretSantaId: secretSantaId as string,
+      participant,
+    });
   };
   console.log(secretSantaQuery.data?.data.organizer.name);
   return (
@@ -70,14 +73,14 @@ export default function HomePage() {
         <Santa
           messagePosition="top"
           message={
-            (mutation.isSuccess &&
+            (participateMutation.isSuccess &&
               secretSantaQuery.data &&
               `You have successfully participated in the Secret Santa!\nYou will receive an email on ${new Date(
                 secretSantaQuery.data.data.drawDate
               ).toLocaleString()}\nGood luck!`) ||
-            (mutation.isError &&
-              mutation.error &&
-              mutation.error.response?.data.message) ||
+            (participateMutation.isError &&
+              participateMutation.error &&
+              participateMutation.error.response?.data.message) ||
             (!secretSantaQuery.isFetched &&
               "Enter the password to join the Secret Santa") ||
             (secretSantaQuery.isFetching &&
@@ -110,6 +113,7 @@ export default function HomePage() {
               className="w-full"
               kind="primary"
               disabled={!password}
+              loading={secretSantaQuery.isLoading}
             >
               Join
             </Button>
@@ -131,35 +135,35 @@ export default function HomePage() {
               <span>Try again</span>
             </Button>
           )}
-        {mutation.isError &&
-          mutation.error &&
-          mutation.error.response?.status === 400 && (
+        {participateMutation.isError &&
+          participateMutation.error &&
+          participateMutation.error.response?.status === 400 && (
             <Button
               className={styles.TryAgainButton}
               type="button"
               kind="primary"
-              onClick={() => mutation.reset()}
+              onClick={() => participateMutation.reset()}
             >
               <span>Try again</span>
             </Button>
           )}
-        {(mutation.isSuccess ||
-          (mutation.isError &&
-            mutation.error &&
-            mutation.error.response?.status === 409)) && (
+        {(participateMutation.isSuccess ||
+          (participateMutation.isError &&
+            participateMutation.error &&
+            participateMutation.error.response?.status === 409)) && (
           <Button
             type="button"
             kind="primary"
             className="w-full"
             onClick={() => {
-              mutation.reset();
+              participateMutation.reset();
               setParticipant(defaultParticipant);
             }}
           >
             <span>Add more participants</span>
           </Button>
         )}
-        {!mutation.isError && !mutation.isSuccess && (
+        {!participateMutation.isError && !participateMutation.isSuccess && (
           <form className="w-full" onSubmit={handleSubmit}>
             <AnimatePresence mode={"popLayout" || "sync"}>
               {secretSantaQuery.data && (
@@ -194,6 +198,7 @@ export default function HomePage() {
                     type="submit"
                     className="w-full"
                     kind="primary"
+                    loading={participateMutation.isLoading}
                     disabled={
                       !(participant.name && validateEmail(participant.email))
                     }

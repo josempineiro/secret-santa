@@ -14,6 +14,7 @@ const passwordLength = process.env.SECRET_SANTA_PASSWORD_LENGTH
 
 interface SecretSantaWizardProps {
   onSubmit: (secretSanta: SecretSanta) => void;
+  loading?: boolean;
 }
 
 interface SecretSantaStepContentProps {
@@ -142,7 +143,6 @@ const steps = [
       return (
         <TextField
           label="Group password"
-          type="password"
           value={secretSanta.password}
           onChange={(password: string) => {
             setSecretSanta({
@@ -197,6 +197,7 @@ const steps = [
 ].filter(({ hidden }) => !hidden);
 
 export default function SecretSantaWizard({
+  loading,
   onSubmit,
 }: SecretSantaWizardProps) {
   const [secretSanta, setSecretSanta] = React.useState<SecretSanta>({
@@ -215,7 +216,6 @@ export default function SecretSantaWizard({
   const [activeStep, setActiveStep] = React.useState(0);
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    onSubmit(secretSanta);
   };
 
   return (
@@ -223,6 +223,16 @@ export default function SecretSantaWizard({
       className={cn(["w-full h-full flex flex-col gap-4"])}
       onSubmit={handleSubmit}
     >
+      <div className={cn(["flex px-4 "])}>
+        <Santa
+          message={steps[activeStep].description}
+          messagePosition="right"
+          className={"self-start py-16"}
+          variant={
+            steps[activeStep].id === "password" ? "eyes-closed" : "default"
+          }
+        />
+      </div>
       {steps.map((step, index) => {
         return (
           <AnimatePresence key={step.id} mode={"popLayout"}>
@@ -240,11 +250,6 @@ export default function SecretSantaWizard({
                     "flex-1 flex flex-col justify-center items-center overflow-hidden px-4 ",
                   ])}
                 >
-                  <Santa
-                    message={step.description}
-                    messagePosition="right"
-                    className={"self-start py-16"}
-                  />
                   {step.content({ secretSanta, setSecretSanta })}
                   {step.validate(secretSanta) !== true && (
                     <p className={cn(["text-primary text-sm"])}>
@@ -288,6 +293,7 @@ export default function SecretSantaWizard({
                   <Button
                     type="button"
                     kind="primary"
+                    loading={loading}
                     disabled={!step.validate(secretSanta)}
                     onClick={() => {
                       if (activeStep === steps.length - 1) {

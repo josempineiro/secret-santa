@@ -30,33 +30,35 @@ export default async function handler(
 ) {
   if (req.method === "POST") {
     const password = await encriptPassword(req.body.password);
-    const snapshot = await (
-      await firestore.collection("secretsanta").add({
-        organizer: {
+    const secretSantaRef = await firestore.collection("secretsanta").add({
+      organizer: {
+        name: req.body.organizer.name,
+        email: req.body.organizer.email,
+      },
+      drawDate: req.body.drawDate,
+      participants: [
+        {
           name: req.body.organizer.name,
           email: req.body.organizer.email,
         },
-        drawDate: req.body.drawDate,
-        participants: [
-          {
-            name: req.body.organizer.name,
-            email: req.body.organizer.email,
-          },
-          ...req.body.participants,
-        ],
-        name: req.body.name,
-        password,
-      })
-    )
-      .get()
-      .catch((error: any) => {
-        console.error(error);
-        res.status(500).json({ message: error.message });
-      });
-    res.status(200).json({
-      id: snapshot.id,
-      organizer: snapshot.data()?.organizer,
-      participants: snapshot.data()?.participants,
+        ...req.body.participants,
+      ],
+      name: req.body.name,
+      password,
     });
+    const snapshot = await secretSantaRef.get().catch((error: any) => {
+      console.error(error);
+      res.status(500).json({ message: error.message });
+    });
+
+    if (snapshot && snapshot.exists) {
+      res.status(200).json({
+        id: snapshot.id,
+        organizer: snapshot.data()?.organizer,
+        participants: snapshot.data()?.participants,
+      });
+    } else {
+      res.status(500).json({ message: "Something went wrong" });
+    }
   }
 }

@@ -41,7 +41,6 @@ const steps = [
     content: ({ secretSanta, setSecretSanta }: SecretSantaStepContentProps) => {
       return (
         <TextField
-          autoFocus
           label="Secret Santa title"
           value={secretSanta.name}
           onChange={(value: string) => {
@@ -69,7 +68,6 @@ const steps = [
           <TextField
             label="Your name"
             type="text"
-            autoFocus
             value={secretSanta.organizer.name}
             className="mb-4"
             onChange={(name: string) => {
@@ -118,7 +116,6 @@ const steps = [
           <TextField
             label="Draw date"
             type="datetime-local"
-            autoFocus
             value={secretSanta.drawDate}
             onChange={(drawDate: string) => {
               setSecretSanta({

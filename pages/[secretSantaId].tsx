@@ -101,7 +101,6 @@ export default function HomePage() {
             }}
           >
             <TextField
-              autoFocus
               label="Password"
               type="password"
               value={password}
@@ -177,7 +176,6 @@ export default function HomePage() {
                   <TextField
                     label="Name"
                     type="text"
-                    autoFocus
                     className="mb-4"
                     value={participant.name}
                     onChange={(name) =>
@@ -187,7 +185,6 @@ export default function HomePage() {
                   <TextField
                     label="Email"
                     type="email"
-                    autoFocus
                     className="mb-4"
                     value={participant.email}
                     onChange={(email) =>

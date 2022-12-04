@@ -21,7 +21,7 @@ const Button = ({
       disabled={disabled}
       className={cn([
         className,
-        "rounded-md text-white",
+        "rounded-md text-white relative",
         {
           "opacity-50 cursor-not-allowed": disabled,
           "bg-primary": kind === "primary",

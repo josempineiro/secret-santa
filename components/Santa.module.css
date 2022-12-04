@@ -84,6 +84,7 @@
   top: 30%;
   left: 40%;
   transform: translateX(-100%);
+  box-shadow: 0 0 0 2px #f9c89d;
 }
 
 .Eye::after {
@@ -152,6 +153,16 @@
   height: 80px;
   border-radius: 30px;
   position: relative;
+}
+
+.ThiefMask {
+  background-color: black;
+  width: 100%;
+  height: 18px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  top: 26%;
 }
 
 @keyframes wave {

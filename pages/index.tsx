@@ -61,10 +61,7 @@ export default function Home() {
               delay: 0.33,
             }}
           >
-            <Santa
-              message="Invite your friends and family to join in the fun and exchange
-            gifts."
-            />
+            <Santa message="Invite your friends or family to join and exchange gifts." />
           </motion.div>
         </AnimatePresence>
         <AnimatePresence>
@@ -83,6 +80,22 @@ export default function Home() {
           >
             <Link href="/start">
               <Button kind="primary" className="w-full">
+                <div className="absolute -top-full left-1/2 translate-y-1/2 -translate-x-1/2">
+                  <svg
+                    className="w-6 h-6 animate-bounce"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3"
+                    />
+                  </svg>
+                </div>
                 <span>Start now!</span>
               </Button>
             </Link>

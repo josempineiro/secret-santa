@@ -6,7 +6,6 @@ export interface Organizer {
 export interface Participant {
   name: string;
   email: string;
-  index: number;
 }
 
 export interface ApiError {
@@ -25,4 +24,5 @@ export interface SecretSanta {
   organizer: Organizer;
   password: string;
   participants: Participant[];
+  completed?: boolean;
 }

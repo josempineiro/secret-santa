@@ -15,14 +15,13 @@ import { validateEmail } from "utils";
 const defaultParticipant = {
   name: "",
   email: "",
-  index: 0,
 };
 
 type GetSecretSantaResponse = {
   data: SecretSanta;
 };
 
-export default function HomePage() {
+export default function SecretSantaPage() {
   const router = useRouter();
   const { secretSantaId } = router.query;
 
@@ -57,7 +56,42 @@ export default function HomePage() {
       participant,
     });
   };
-  console.log(secretSantaQuery.data?.data.organizer.name);
+
+  const secretSantaMessage = React.useMemo(() => {
+    if (participateMutation.isSuccess && secretSantaQuery.data) {
+      return `You have successfully participated in the Secret Santa!\nYou will receive an email on ${new Date(
+        secretSantaQuery.data.data.drawDate
+      ).toLocaleString()}\nGood luck!`;
+    } else if (participateMutation.isError && participateMutation.error) {
+      return participateMutation.error.response?.data.message as string;
+    } else if (!secretSantaQuery.isFetched) {
+      return "Enter the password to join the Secret Santa";
+    } else if (secretSantaQuery.isFetching) {
+      return "Let me check if you're on the list...";
+    } else if (secretSantaQuery.isError && secretSantaQuery.error) {
+      return secretSantaQuery.error?.response?.data.message as string;
+    } else if (
+      secretSantaQuery.isSuccess &&
+      secretSantaQuery.data.data.completed
+    ) {
+      return "The Secret Santa has already been drawn!\nCheck your email!";
+    } else if (secretSantaQuery.isSuccess) {
+      return `${secretSantaQuery.data.data.organizer.name} is organizing <b class="text-primary">${secretSantaQuery.data.data.name}</b>'s Secret Santa!\nSend your participation!`;
+    } else {
+      return "";
+    }
+  }, [
+    participateMutation.error,
+    participateMutation.isError,
+    participateMutation.isSuccess,
+    secretSantaQuery.data,
+    secretSantaQuery.error,
+    secretSantaQuery.isError,
+    secretSantaQuery.isFetched,
+    secretSantaQuery.isFetching,
+    secretSantaQuery.isSuccess,
+  ]);
+
   return (
     <>
       <Head>
@@ -71,26 +105,11 @@ export default function HomePage() {
         ])}
       >
         <Santa
-          messagePosition="top"
-          message={
-            (participateMutation.isSuccess &&
-              secretSantaQuery.data &&
-              `You have successfully participated in the Secret Santa!\nYou will receive an email on ${new Date(
-                secretSantaQuery.data.data.drawDate
-              ).toLocaleString()}\nGood luck!`) ||
-            (participateMutation.isError &&
-              participateMutation.error &&
-              participateMutation.error.response?.data.message) ||
-            (!secretSantaQuery.isFetched &&
-              "Enter the password to join the Secret Santa") ||
-            (secretSantaQuery.isFetching &&
-              "Let me check if you're on the list...") ||
-            (secretSantaQuery.isError &&
-              secretSantaQuery.error?.response?.data.message) ||
-            (secretSantaQuery.isSuccess &&
-              `${secretSantaQuery.data.data.organizer.name} is organizing <b class="text-primary">${secretSantaQuery.data.data.name}</b>'s Secret Santa!\nSend your participation!`) ||
-            ""
+          variant={
+            !secretSantaQuery.isSuccess && password ? "eyes-closed" : "default"
           }
+          messagePosition="top"
+          message={secretSantaMessage}
         />
         {(!password || !secretSantaQuery.isFetched) && (
           <form
@@ -162,51 +181,57 @@ export default function HomePage() {
             <span>Add more participants</span>
           </Button>
         )}
-        {!participateMutation.isError && !participateMutation.isSuccess && (
-          <form className="w-full" onSubmit={handleSubmit}>
-            <AnimatePresence mode={"popLayout" || "sync"}>
-              {secretSantaQuery.data && (
-                <motion.div
-                  layout
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0.8, opacity: 0 }}
-                  transition={{ type: "spring" }}
-                  className={"w-full"}
-                >
-                  <TextField
-                    label="Name"
-                    type="text"
-                    className="mb-4"
-                    value={participant.name}
-                    onChange={(name) =>
-                      setParticipant({ ...participant, name })
-                    }
-                  />
-                  <TextField
-                    label="Email"
-                    type="email"
-                    className="mb-4"
-                    value={participant.email}
-                    onChange={(email) =>
-                      setParticipant({ ...participant, email })
-                    }
-                  />
-                  <Button
-                    type="submit"
-                    className="w-full"
-                    kind="primary"
-                    loading={participateMutation.isLoading}
-                    disabled={
-                      !(participant.name && validateEmail(participant.email))
-                    }
+        {secretSantaQuery.isSuccess &&
+          secretSantaQuery.data.data.completed &&
+          null}
+        {!participateMutation.isError &&
+          !participateMutation.isSuccess &&
+          secretSantaQuery.isSuccess &&
+          !secretSantaQuery.data.data.completed && (
+            <form className="w-full" onSubmit={handleSubmit}>
+              <AnimatePresence mode={"popLayout" || "sync"}>
+                {secretSantaQuery.data && (
+                  <motion.div
+                    layout
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0.8, opacity: 0 }}
+                    transition={{ type: "spring" }}
+                    className={"w-full"}
                   >
-                    <span>Participate</span>
-                  </Button>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </form>
-        )}
+                    <TextField
+                      label="Name"
+                      type="text"
+                      className="mb-4"
+                      value={participant.name}
+                      onChange={(name) =>
+                        setParticipant({ ...participant, name })
+                      }
+                    />
+                    <TextField
+                      label="Email"
+                      type="email"
+                      className="mb-4"
+                      value={participant.email}
+                      onChange={(email) =>
+                        setParticipant({ ...participant, email })
+                      }
+                    />
+                    <Button
+                      type="submit"
+                      className="w-full"
+                      kind="primary"
+                      loading={participateMutation.isLoading}
+                      disabled={
+                        !(participant.name && validateEmail(participant.email))
+                      }
+                    >
+                      <span>Participate</span>
+                    </Button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </form>
+          )}
       </div>
     </>
   );

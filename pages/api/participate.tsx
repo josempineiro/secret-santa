@@ -17,13 +17,18 @@ export default async function handler(
   res: NextApiResponse<SecretSanta | Error>
 ) {
   if (req.method === "POST") {
-    const documentRef = await firestore
+    const documentRef = firestore
       .collection("secretsanta")
       .doc(req.body.secretSantaId);
     const snapshot = await documentRef.get();
     const secretSanta = snapshot.data() as SecretSanta;
     if (snapshot.exists) {
-      if (
+      if (secretSanta.completed) {
+        res.status(409).json({
+          message:
+            "Oops! The Secret Santa has already been drawn!\nYou can no longer participate, sorry!",
+        });
+      } else if (
         secretSanta.participants.find(
           (participant: any) =>
             participant.name === req.body.participant.name &&
@@ -38,7 +43,9 @@ export default async function handler(
           (participant: any) => participant.email === req.body.participant.email
         )
       ) {
-        res.status(409).json({ message: "You are already participating!" });
+        res
+          .status(409)
+          .json({ message: "Hey! You are already participating!" });
       } else {
         documentRef.update({
           participants: [...secretSanta.participants, req.body.participant],

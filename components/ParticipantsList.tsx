@@ -135,10 +135,7 @@ export default function ParticipantsList({
             )}
             {participantIsValid(newParticipant, value.length, [
               ...value,
-              {
-                ...newParticipant,
-                index: value.length,
-              },
+              newParticipant,
             ]) && (
               <motion.div
                 key="button"
@@ -152,13 +149,7 @@ export default function ParticipantsList({
                   className="w-full"
                   onClick={() => {
                     setNewParticipant(defaultParticipant);
-                    onChange([
-                      ...value,
-                      {
-                        ...newParticipant,
-                        index: value.length,
-                      },
-                    ]);
+                    onChange([...value, newParticipant]);
                     setVisibleNewParticipantModal(false);
                   }}
                 >
@@ -178,7 +169,7 @@ export default function ParticipantsList({
           {value.map((participant, id) => (
             <motion.li
               layout
-              key={participant.index}
+              key={participant.email}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
               transition={{ type: "spring" }}

@@ -1,4 +1,5 @@
 import React from "react";
+import cn from "classnames";
 import styles from "./Grinch.module.css";
 
 const Grinch = ({
@@ -7,7 +8,14 @@ const Grinch = ({
   variant?: "default" | "eyes-closed";
 }) => {
   return (
-    <div className={styles.Grinch}>
+    <div
+      className={cn([
+        styles.Grinch,
+        {
+          [styles["Grinch--eyes-closed"]]: variant === "eyes-closed",
+        },
+      ])}
+    >
       <div className={styles.GrinchFace}></div>
       <div className={styles.Forehead}></div>
       <div className={styles.Hat}></div>

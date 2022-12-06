@@ -1,6 +1,5 @@
 import React from "react";
 import cn from "classnames";
-import { motion, AnimatePresence } from "framer-motion";
 import styles from "./Santa.module.css";
 
 const Santa = ({

@@ -10,6 +10,7 @@
   background: var(--color-grinch);
   border-radius: 100%;
   transform: rotate(45deg) skew(-8deg, -8deg);
+  border: 2px solid black;
 }
 
 .Forehead {
@@ -139,12 +140,12 @@
   width: 70%;
   height: 70%;
   background-color: var(--color-santa);
-  border-color: #b73f43;
   position: absolute;
   border-radius: 100% 0 0 0;
   left: 50%;
   top: 0;
   transform: translate3d(-40%, -100%, 0) rotate(10deg);
+  border: 2px solid black;
 }
 
 .Hat::after {
@@ -157,18 +158,20 @@
   top: 0;
   right: 0;
   transform: translate(50%, -50%);
+  border: 2px solid black;
 }
 
 .Hat::before {
   content: "";
   position: absolute;
-  width: calc(100% + 10px);
+  width: calc(100% + 14px);
   height: 20px;
   border-radius: 5px;
   background-color: white;
   bottom: 0;
   left: 50%;
   transform: translate(-50%, 50%);
+  border: 2px solid black;
 }
 
 .Grinch--eyes-closed .Eye:first-child {

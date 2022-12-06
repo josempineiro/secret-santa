@@ -22,6 +22,7 @@
   z-index: 1;
   left: 50%;
   transform: translate3d(-50%, -90%, 0);
+  border: 2px solid black;
 }
 
 .Hat::after {
@@ -34,7 +35,7 @@
   top: 0;
   right: 0;
   transform: translate(50%, -50%);
-  border: 1px solid #dadce0;
+  border: 2px solid black;
 }
 
 .Hat::before {
@@ -47,21 +48,21 @@
   bottom: 0;
   left: 50%;
   transform: translate(-50%, 50%);
-  border: 1px solid #dadce0;
+  border: 2px solid black;
 }
 
 .Face {
   background-color: #fad2af;
   width: 60px;
-  height: 20px;
-  border-radius: 10px;
+  height: 30px;
+  border-radius: 15px;
   border-top-color: rgb(208, 208, 208);
   border-left-color: rgb(208, 208, 208);
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -100%);
-  border: 1px solid #dadce0;
+  border: 2px solid black;
 }
 
 .Hair {
@@ -111,7 +112,7 @@
   background-color: rgb(232, 231, 231);
   transform: translate3d(-50%, 0%, 0);
   border-radius: 5px 0 5px 0;
-  border: 1px solid #dadce0;
+  border: 2px solid black;
 }
 
 .Eye ~ .Eye::before {
@@ -138,7 +139,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  border: 1px solid #dadce0;
+  border: 2px solid black;
 }
 
 .Beard {
@@ -150,7 +151,7 @@
   background-color: white;
   border-radius: 100% 100% 100% 0;
   transform: rotate(-45deg);
-  border: 1px solid #dadce0;
+  border: 2px solid black;
 }
 
 .Body {

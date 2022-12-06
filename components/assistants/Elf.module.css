@@ -1,0 +1,236 @@
+.Elf {
+  width: 60px;
+  height: 60px;
+  position: relative;
+}
+
+.Face {
+  width: 100%;
+  height: 100%;
+  background: #fcc5a4;
+  border-radius: 100%;
+  border: 2px solid black;
+}
+
+.Hair {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 100%;
+}
+
+.Hair::before {
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 100%;
+  border-radius: 100%;
+  background-color: #4e3225;
+  top: -100%;
+  right: 50%;
+  transform: translate(-5%, 50%);
+  border: 2px solid black;
+}
+.Hair::after {
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 100%;
+  border-radius: 100%;
+  background-color: #4e3225;
+  top: -100%;
+  left: 50%;
+  transform: translate(-41%, 15px);
+  border: 2px solid black;
+}
+
+.Eyes {
+  content: "";
+  position: absolute;
+  width: 60px;
+  height: 20px;
+  transform: translate3d(-50%, -50%, 0);
+  top: 35%;
+  left: 50%;
+}
+
+.Eye {
+  content: "";
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background: white;
+  border-radius: 100%;
+  border: 2px solid black;
+  top: 50%;
+  clip-path: polygon(0% 50%, 100% 50%, 100% 0%, 0% 0%);
+  transition: all 0.2s ease-in-out;
+}
+
+.Eye:first-child {
+  left: 20%;
+}
+
+.Eye + .Eye {
+  right: 20%;
+}
+
+.Eye::after {
+  content: "";
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: black;
+  border-radius: 100%;
+  top: 50%;
+  left: 50%;
+}
+
+.Eye:first-child::after {
+  transform: translate3d(-50%, -70%, 0);
+}
+.Eye + .Eye::after {
+  transform: translate3d(-50%, -70%, 0);
+}
+
+.EyeBrow {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 4px;
+  transform: translate3d(-100%, -30%, 0) rotate(-10deg) skew(0deg, 0deg);
+  top: 30%;
+  left: 40%;
+  background-color: #4e3225;
+  border: 1px solid black;
+  transition: all 0.2s ease-in-out;
+}
+
+.EyeBrow + .EyeBrow {
+  left: auto;
+  right: 40%;
+  transform: translate3d(100%, -30%, 0) rotate(10deg);
+}
+
+.Nose {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+}
+
+.Nose::before {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #fab78e;
+  border-radius: 15% 25% 100% 25%;
+  transform: translate3d(-50%, -50%, 0) rotate(45deg);
+  top: 50%;
+  left: 50%;
+  border: 2px solid black;
+  border-top-color: transparent;
+  border-left-color: transparent;
+}
+
+.Mouth {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  top: 70%;
+  left: 50%;
+  border: 2px solid black;
+  border-width: 2px;
+  border-top-color: transparent;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  transform: translate3d(-50%, -60%, 0) rotate(-25deg);
+}
+
+.Hat {
+  width: 70%;
+  height: 70%;
+  background-color: var(--color-santa);
+  position: absolute;
+  border-radius: 100% 0 0 0;
+  left: 50%;
+  top: 0;
+  transform: translate3d(-60%, -100%, 0) rotate(-5deg);
+  border: 2px solid black;
+  background-image: linear-gradient(
+    0deg,
+    var(--color-elf) 0%,
+    var(--color-elf) 20%,
+    var(--color-santa) 20%,
+    var(--color-santa) 40%,
+    var(--color-elf) 40%,
+    var(--color-elf) 60%,
+    var(--color-santa) 60%,
+    var(--color-santa) 80%,
+    var(--color-elf) 80%,
+    var(--color-elf) 100%
+  );
+}
+
+.Hat::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  background-color: #f4c207;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+  border: 2px solid black;
+}
+
+.Hat::before {
+  content: "";
+  position: absolute;
+  width: calc(100% + 14px);
+  height: 20px;
+  border-radius: 5px;
+  background-color: #1e8f1e;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  border: 2px solid black;
+}
+
+.Elf--eyes-closed .Eye:first-child {
+  background: transparent;
+}
+.Elf--eyes-closed .Eye:first-child::after {
+  background: transparent;
+}
+
+.Elf--eyes-closed .Eye + .EyeBrow {
+  transform: translate3d(-100%, 0%, 0) rotate(0deg) skew(0deg, 0deg);
+}
+
+.Ear {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: #fcc5a4;
+  border-radius: 100%;
+  border: 2px solid black;
+  top: 50%;
+  transition: all 0.2s ease-in-out;
+}
+.Ear:first-child {
+  left: 0;
+  transform: translate3d(-50%, -50%, 0) rotate(-10deg);
+}
+.Ear:last-child {
+  right: 0;
+  transform: translate3d(50%, -50%, 0) rotate(10deg);
+}

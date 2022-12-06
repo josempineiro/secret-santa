@@ -1,8 +1,7 @@
 import React from "react";
 import cn from "classnames";
 import { motion, AnimatePresence } from "framer-motion";
-import Grinch from "components/Grinch";
-import Santa from "components/Santa";
+import { Grinch, Santa } from "components/assistants";
 import { useAppContext } from "context/AppContext";
 
 const Assistant = ({

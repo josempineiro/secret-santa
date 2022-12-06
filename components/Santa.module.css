@@ -6,7 +6,6 @@
 }
 
 .Head {
-  transform: translateY(20px);
   width: 80px;
   height: 80px;
   border-radius: 100%;
@@ -16,37 +15,39 @@
 .Hat {
   width: 70%;
   height: 70%;
-  background-color: var(--color-primary);
+  background-color: var(--color-santa);
   border-color: #b73f43;
   position: absolute;
   border-radius: 100% 0 0 0;
   z-index: 1;
   left: 50%;
-  transform: translate3d(-50%, -80%, 0);
+  transform: translate3d(-50%, -90%, 0);
 }
 
 .Hat::after {
   content: "";
   position: absolute;
-  width: 10px;
-  height: 10px;
+  width: 20px;
+  height: 20px;
   border-radius: 100%;
   background-color: white;
   top: 0;
   right: 0;
   transform: translate(50%, -50%);
+  border: 1px solid #dadce0;
 }
 
 .Hat::before {
   content: "";
   position: absolute;
   width: calc(100% + 10px);
-  height: 10px;
+  height: 20px;
   border-radius: 5px;
   background-color: white;
   bottom: 0;
   left: 50%;
   transform: translate(-50%, 50%);
+  border: 1px solid #dadce0;
 }
 
 .Face {
@@ -60,6 +61,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -100%);
+  border: 1px solid #dadce0;
 }
 
 .Hair {
@@ -109,6 +111,7 @@
   background-color: rgb(232, 231, 231);
   transform: translate3d(-50%, 0%, 0);
   border-radius: 5px 0 5px 0;
+  border: 1px solid #dadce0;
 }
 
 .Eye ~ .Eye::before {
@@ -135,6 +138,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  border: 1px solid #dadce0;
 }
 
 .Beard {
@@ -146,24 +150,15 @@
   background-color: white;
   border-radius: 100% 100% 100% 0;
   transform: rotate(-45deg);
+  border: 1px solid #dadce0;
 }
 
 .Body {
-  background-color: var(--color-primary);
+  background-color: var(--color-santa);
   width: 80px;
   height: 80px;
   border-radius: 30px;
   position: relative;
-}
-
-.ThiefMask {
-  background-color: black;
-  width: 100%;
-  height: 16px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  top: 26%;
 }
 
 @keyframes wave {
@@ -181,10 +176,10 @@
   height: 56px;
   border-radius: 40px;
   padding: 0 10px;
-  border: 26px var(--color-primary) solid;
+  border: 26px var(--color-santa) solid;
   border: 9px transparent solid;
-  border-left: 17px var(--color-primary) solid;
-  border-bottom: 17px var(--color-primary) solid;
+  border-left: 17px var(--color-santa) solid;
+  border-bottom: 17px var(--color-santa) solid;
   transform: rotate(-191deg);
 }
 
@@ -196,10 +191,10 @@
   height: 56px;
   border-radius: 40px;
   padding: 0 10px;
-  border: 26px var(--color-primary) solid;
+  border: 26px var(--color-santa) solid;
   border: 8px transparent solid;
-  border-right: 17px var(--color-primary) solid;
-  border-bottom: 17px var(--color-primary) solid;
+  border-right: 17px var(--color-santa) solid;
+  border-bottom: 17px var(--color-santa) solid;
   transform: rotate(29deg);
   animation: wave 2s infinite;
 }
@@ -243,7 +238,7 @@
 }
 
 .Legs {
-  background-color: var(--color-primary);
+  background-color: var(--color-santa);
 }
 
 .Santa--eyes-closed .Eye {
@@ -263,4 +258,20 @@
   border-color: transparent;
   border-bottom-color: black;
   border-right-color: black;
+}
+
+.Mouth {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  top: 60%;
+  left: 50%;
+  border: 2px solid black;
+  border-width: 2px;
+  border-top-color: transparent;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  transform: translate3d(-50%, -50%, 0) rotate(0deg);
 }

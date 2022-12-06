@@ -1,0 +1,170 @@
+.Grinch {
+  width: 80px;
+  height: 80px;
+  position: relative;
+}
+
+.GrinchFace {
+  width: 100%;
+  height: 100%;
+  background: var(--color-grinch);
+  border-radius: 100%;
+  transform: rotate(45deg) skew(-8deg, -8deg);
+}
+
+.Forehead {
+  content: "";
+  position: absolute;
+  width: 80%;
+  height: 100%;
+  border-radius: 80%;
+  background: var(--color-grinch);
+
+  transform: translate3d(-50%, -50%, 0);
+  top: 20%;
+  left: 50%;
+}
+
+.Eyes {
+  content: "";
+  position: absolute;
+  width: 80px;
+  height: 20px;
+  transform: translate3d(-50%, -50%, 0);
+  top: 20%;
+  left: 50%;
+}
+.Eye {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: #e3b412;
+  border-radius: 100%;
+  border: 2px solid black;
+  top: 20%;
+  left: 15%;
+  clip-path: polygon(0% 50%, 100% 50%, 100% 100%, 0% 100%);
+}
+
+.Eye + .Eye {
+  left: auto;
+  right: 15%;
+}
+
+.Eye::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: black;
+  border-radius: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+}
+.Eye + .Eye::after {
+  transform: translate3d(-50%, -50%, 0);
+}
+
+.EyeBrow {
+  content: "";
+  position: absolute;
+  width: 30px;
+  height: 6px;
+  transform: translate3d(-100%, -50%, 0) rotate(20deg) skew(0deg, 0deg);
+  top: 30%;
+  left: 40%;
+  background-color: #264e0e;
+  border: 1px solid black;
+}
+
+.EyeBrow + .EyeBrow {
+  left: auto;
+  right: 40%;
+  transform: translate3d(100%, -50%, 0) rotate(-20deg);
+}
+
+.Nose {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+}
+
+.Nose::before {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #225312;
+  border-radius: 15% 25% 100% 25%;
+  transform: translate3d(-50%, -50%, 0) rotate(-135deg);
+  top: 50%;
+  left: 50%;
+  border: 2px solid black;
+}
+
+.Nose::after {
+  content: "";
+  position: absolute;
+  width: 0px;
+  height: 16px;
+  background: black;
+  transform: translate3d(-50%, 8px, 0);
+  top: 100%;
+  left: 50%;
+  border: 1px solid black;
+}
+
+.Mouth {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  background: var(--color-grinch);
+  top: 80%;
+  left: 50%;
+  border: 2px solid black;
+  border-width: 2px;
+  border-bottom-color: transparent;
+  border-right-color: transparent;
+  transform: translate3d(-50%, -50%, 0) rotate(45deg);
+}
+
+.Hat {
+  width: 70%;
+  height: 70%;
+  background-color: var(--color-santa);
+  border-color: #b73f43;
+  position: absolute;
+  border-radius: 100% 0 0 0;
+  left: 50%;
+  top: 0;
+  transform: translate3d(-40%, -100%, 0) rotate(10deg);
+}
+
+.Hat::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  background-color: white;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+}
+
+.Hat::before {
+  content: "";
+  position: absolute;
+  width: calc(100% + 10px);
+  height: 20px;
+  border-radius: 5px;
+  background-color: white;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 50%);
+}

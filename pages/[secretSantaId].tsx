@@ -1,7 +1,7 @@
 import React from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import Santa from "components/Santa";
+import Assistant from "components/Assistant";
 import cn from "classnames";
 import { motion, AnimatePresence } from "framer-motion";
 import { useQuery, useMutation } from "react-query";
@@ -75,7 +75,7 @@ export default function SecretSantaPage() {
     ) {
       return "The Secret Santa has already been drawn!\nCheck your email!";
     } else if (secretSantaQuery.isSuccess) {
-      return `${secretSantaQuery.data.data.organizer.name} is organizing <b class="text-primary">${secretSantaQuery.data.data.name}</b>'s Secret Santa!\nSend your participation!`;
+      return `${secretSantaQuery.data.data.organizer.name} is organizing <b class="text-santa dark:text-grinch">${secretSantaQuery.data.data.name}</b>'s Secret Santa!\nSend your participation!`;
     } else {
       return "";
     }
@@ -103,7 +103,7 @@ export default function SecretSantaPage() {
           "flex h-full flex-col items-center w-full gap-20 justify-center p-4",
         ])}
       >
-        <Santa
+        <Assistant
           variant={
             !secretSantaQuery.isSuccess && password ? "eyes-closed" : "default"
           }

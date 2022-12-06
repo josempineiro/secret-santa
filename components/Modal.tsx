@@ -49,7 +49,7 @@ export default function Modal({
           transition={{ type: "spring" }}
           className={cn([
             "flex flex-col gap-4 justify-between ",
-            "absolute w-full h-full top-0 left-0 bg-black p-4 overflow-scroll",
+            "absolute w-full h-full top-0 left-0 bg-light dark:bg-dark p-4 overflow-scroll",
           ])}
         >
           <div className={cn(["flex justify-between items-center"])}>

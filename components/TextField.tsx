@@ -25,8 +25,8 @@ const TextField = ({
         {...rest}
         id={label}
         className={cn([
-          "appearance-none px-4 pt-6 pb-2 text-md font-medium border-none rounded text-white bg-transparent w-full ring-2 ring-white ring-opacity-30 outline-none transition-shadow",
-          "focus:ring-2 focus:ring-primary focus:ring-opacity-100",
+          "appearance-none px-4 pt-6 pb-2 text-md font-medium border-none rounded text-dark dark:text-light bg-transparent w-full ring-2 ring-dark dark:ring-light ring-opacity-30 dark:ring-opacity-30 outline-none transition-shadow",
+          "focus:ring-2 focus:ring-santa dark:focus:ring-grinch focus:ring-opacity-100",
           "transition-all duration-200",
         ])}
         value={value}

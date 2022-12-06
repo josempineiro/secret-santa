@@ -6,7 +6,7 @@ import { SecretSanta, Participant } from "types";
 import ParticipantsList from "components/ParticipantsList";
 import Button from "components/Button";
 import TextField from "components/TextField";
-import Santa from "components/Santa";
+import Assistant from "components/Assistant";
 
 const passwordLength = process.env.SECRET_SANTA_PASSWORD_LENGTH
   ? Number(process.env.SECRET_SANTA_PASSWORD_LENGTH)
@@ -34,7 +34,7 @@ const steps = [
     id: "name",
     title: "Name",
     description:
-      'What is the name of your Secret Santa?\n i.e. <b class="text-primary">Smith Family</b>',
+      'What is the name of your Secret Santa?\n i.e. <b class="text-santa dark:text-grinch">Smith Family</b>',
     validate: (secretSanta: SecretSanta) => {
       return secretSanta.name.length > 0;
     },
@@ -133,7 +133,7 @@ const steps = [
     id: "password",
     title: "Password",
     description:
-      'Provide a <b class="text-primary">password</b> to protect your Secret Santa.\n<b class="text-primary">You must share it with your participants<b>',
+      'Provide a <b class="text-santa dark:text-grinch">password</b> to protect your Secret Santa.\n<b class="text-santa dark:text-grinch">You must share it with your participants<b>',
     validate: (secretSanta: SecretSanta) => {
       return secretSanta.password.length >= passwordLength;
     },
@@ -221,8 +221,8 @@ export default function SecretSantaWizard({
       className={cn(["w-full h-full flex flex-col gap-4"])}
       onSubmit={handleSubmit}
     >
-      <div className={cn(["flex px-4 "])}>
-        <Santa
+      <div className={cn(["flex px-4"])}>
+        <Assistant
           message={steps[activeStep].description}
           messagePosition="right"
           className={"self-start py-16"}
@@ -250,14 +250,14 @@ export default function SecretSantaWizard({
                 >
                   {step.content({ secretSanta, setSecretSanta })}
                   {step.validate(secretSanta) !== true && (
-                    <p className={cn(["text-primary text-sm"])}>
+                    <p className={cn(["text-santa dark:text-grinch text-sm"])}>
                       {step.validate(secretSanta)}
                     </p>
                   )}
                 </div>
                 <div
                   className={cn([
-                    "flex justify-between items-center gap-4 p-4 bg-black w-full sticky bottom-0",
+                    "flex justify-between items-center gap-4 p-4 bg-light dark:bg-dark w-full sticky bottom-0",
                   ])}
                 >
                   <Button

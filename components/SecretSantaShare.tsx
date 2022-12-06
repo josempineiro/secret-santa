@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { SecretSanta } from "types";
 import { useRouter } from "next/router";
 import Button from "components/Button";
-import Santa from "components/Santa";
 import TextField from "components/TextField";
+import Assistant from "components/Assistant";
 
 type CopiedValue = string | null;
 type CopyFn = (text: string) => Promise<boolean>; // Return success
@@ -38,7 +38,11 @@ const SecretSantaShare = ({ secretSanta }: { secretSanta: SecretSanta }) => {
   console.log(router);
   return (
     <div className="h-full flex flex-col justify-center gap-20 p-4">
-      <Santa message="Share this link with your participants" />
+      <Assistant
+        className="flex items-center justify-center"
+        message="Share this link with your participants"
+        messagePosition="top"
+      />
       <div className="flex flex-col gap-4">
         <Button
           kind="primary"

@@ -36,7 +36,7 @@ export default async function handler(
         )
       ) {
         res.status(400).json({
-          message: `Oops! There is an participant with the same name, <b class="text-primary">${req.body.participant.name}</b>!\nPlease, choose another name!`,
+          message: `Oops! There is an participant with the same name, <b class="text-santa dark:text-grinch">${req.body.participant.name}</b>!\nPlease, choose another name!`,
         });
       } else if (
         secretSanta.participants.find(

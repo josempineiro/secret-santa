@@ -4,10 +4,14 @@ module.exports = {
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
-        primary: "#b73f43",
+        santa: "#b73f43",
+        grinch: "#8bc13c",
+        dark: "#1a1a1a",
+        light: "#f5f5f5",
       },
       keyframes: {
         "move-y": {

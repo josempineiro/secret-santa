@@ -2,7 +2,7 @@ import React from "react";
 import Head from "next/head";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import Santa from "components/Santa";
+import Assistant from "components/Assistant";
 import Button from "components/Button";
 import cn from "classnames";
 
@@ -60,7 +60,7 @@ export default function Home() {
               delay: 0.33,
             }}
           >
-            <Santa message="Invite your friends or family to join and exchange gifts." />
+            <Assistant message="Invite your friends or family to join and exchange gifts." />
           </motion.div>
         </AnimatePresence>
         <AnimatePresence>
@@ -75,18 +75,17 @@ export default function Home() {
               duration: 0.3,
               delay: 1,
             }}
-            className={cn(["p-4 bg-black w-full sticky bottom-0"])}
+            className={cn(["p-4 bg-light dark:bg-dark w-full sticky bottom-0"])}
           >
             <Link href="/start">
               <Button kind="primary" className="w-full">
                 <div className="absolute -top-full left-1/2 translate-y-1/2 -translate-x-1/2">
                   <svg
-                    className="w-6 h-6 animate-bounce"
+                    className="w-6 h-6 animate-bounce fill-dark dark:fill-light stroke-dark dark:stroke-light"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
-                    stroke="currentColor"
                   >
                     <path
                       strokeLinecap="round"

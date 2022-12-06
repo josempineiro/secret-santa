@@ -60,7 +60,7 @@ export default function Home() {
               delay: 0.33,
             }}
           >
-            <Assistant message="Invite your friends or family to join and exchange gifts." />
+            <Assistant message="Invite your <b class='text-santa dark:text-grinch'>friends</b> or <b class='text-santa dark:text-grinch'>family</b> to join and exchange <b class='text-santa dark:text-grinch'>gifts</b>." />
           </motion.div>
         </AnimatePresence>
         <AnimatePresence>

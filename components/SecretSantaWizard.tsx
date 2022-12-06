@@ -221,11 +221,11 @@ export default function SecretSantaWizard({
       className={cn(["w-full h-full flex flex-col gap-4"])}
       onSubmit={handleSubmit}
     >
-      <div className={cn(["flex px-4"])}>
+      <div className={cn(["flex px-4 pt-20"])}>
         <Assistant
           message={steps[activeStep].description}
           messagePosition="right"
-          className={"self-start py-16"}
+          className={"self-start "}
           variant={
             steps[activeStep].id === "password" ? "eyes-closed" : "default"
           }

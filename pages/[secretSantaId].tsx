@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import Santa from "components/Santa";
 import cn from "classnames";
 import { motion, AnimatePresence } from "framer-motion";
-import styles from "../styles/Home.module.css";
 import { useQuery, useMutation } from "react-query";
 import axios, { AxiosError } from "axios";
 import Button from "components/Button";
@@ -142,7 +141,6 @@ export default function SecretSantaPage() {
           secretSantaQuery.error &&
           secretSantaQuery.error.response?.status === 401 && (
             <Button
-              className={styles.TryAgainButton}
               type="button"
               kind="primary"
               onClick={() => {
@@ -157,7 +155,6 @@ export default function SecretSantaPage() {
           participateMutation.error &&
           participateMutation.error.response?.status === 400 && (
             <Button
-              className={styles.TryAgainButton}
               type="button"
               kind="primary"
               onClick={() => participateMutation.reset()}

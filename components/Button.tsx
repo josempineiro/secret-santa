@@ -25,12 +25,13 @@ const Button = ({
       disabled={disabled || loading}
       className={cn([
         className,
-        "rounded-md text-light dark:text-dark relative",
+        "rounded-md relative",
         {
           "opacity-50 cursor-not-allowed": disabled,
-          "bg-santa dark:bg-grinch": kind === "primary",
-          "bg-stone-600": kind === "secondary",
-          "bg-transparent": kind === "text",
+          "bg-santa dark:bg-grinch text-light dark:text-dark":
+            kind === "primary",
+          "bg-stone-600 text-light": kind === "secondary",
+          "bg-transparent text-dark dark:text-light": kind === "text",
           "p-2": size === "small",
           "p-4": size === "medium",
           "p-6": size === "large",

@@ -292,7 +292,7 @@ export default function SecretSantaWizard({
                     type="button"
                     kind="primary"
                     loading={loading}
-                    disabled={!step.validate(secretSanta)}
+                    disabled={step.validate(secretSanta) !== true}
                     onClick={() => {
                       if (activeStep === steps.length - 1) {
                         onSubmit(secretSanta);
